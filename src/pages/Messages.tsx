@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, MessageCircle } from 'lucide-react';
 import { messageApi, staffApi, projectApi } from '../services/api';
 import DataTable from '../components/Common/DataTable';
-import Modal from '../components/Common/Modal';
+import MessageForm from '../components/Forms/MessageForm';
 import { Message } from '../types/api';
 import { toast } from 'react-hot-toast';
 
@@ -53,27 +53,27 @@ const MessagesPage: React.FC = () => {
   const columns = [
     { 
       key: 'date' as keyof Message, 
-      label: 'Date',
+      label: 'تاریخ',
       render: (value: string) => new Date(value).toLocaleString()
     },
     { 
       key: 'body' as keyof Message, 
-      label: 'Message',
+      label: 'پیام',
       render: (value: string) => value.substring(0, 100) + (value.length > 100 ? '...' : '')
     },
     { 
       key: 'sender' as keyof Message, 
-      label: 'Sender',
+      label: 'فرستنده',
       render: (value: number) => getStaffName(value)
     },
     { 
       key: 'receiver' as keyof Message, 
-      label: 'Receiver',
+      label: 'گیرنده',
       render: (value: number) => getStaffName(value)
     },
     { 
       key: 'project' as keyof Message, 
-      label: 'Project',
+      label: 'پروژه',
       render: (value: number) => getProjectName(value)
     },
   ];
@@ -84,7 +84,7 @@ const MessagesPage: React.FC = () => {
   };
 
   const handleDelete = (message: Message) => {
-    if (window.confirm('Are you sure you want to delete this message?')) {
+    if (window.confirm('آیا از حذف این پیام اطمینان دارید؟')) {
       deleteMutation.mutate(message.id);
     }
   };
@@ -95,29 +95,37 @@ const MessagesPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-slate-900">Messages</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+            <MessageCircle className="w-8 h-8 text-teal-600" />
+            مدیریت پیام‌ها
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            ارسال و مدیریت پیام‌های داخلی
+          </p>
+        </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-6 py-3 rounded-xl hover:from-teal-700 hover:to-cyan-700 transition-all transform hover:scale-105 shadow-lg"
         >
           <Plus className="w-4 h-4" />
-          <span>Add Message</span>
+          <span>ارسال پیام</span>
         </button>
       </div>
 
-      <div className="bg-white shadow rounded-lg">
-        <div className="px-6 py-4 border-b border-slate-200">
+      <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600">
           <div className="flex items-center space-x-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search messages..."
+                placeholder="جستجوی پیام‌ها..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pr-12 pl-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all"
               />
             </div>
           </div>
@@ -132,16 +140,12 @@ const MessagesPage: React.FC = () => {
         />
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        title={editingMessage ? 'Edit Message' : 'Add New Message'}
-        maxWidth="2xl"
-      >
-        <div className="text-center py-8">
-          <p className="text-slate-600">Message form will be implemented here</p>
-        </div>
-      </Modal>
+      {isModalOpen && (
+        <MessageForm
+          message={editingMessage}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, Users } from 'lucide-react';
 import { staffApi } from '../services/api';
 import DataTable from '../components/Common/DataTable';
-import Modal from '../components/Common/Modal';
+import StaffForm from '../components/Forms/StaffForm';
 import { Staff } from '../types/api';
 import { toast } from 'react-hot-toast';
 
@@ -63,29 +63,37 @@ const StaffPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-slate-900">Staff Management</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+            <Users className="w-8 h-8 text-blue-600" />
+            مدیریت کارکنان
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">
+            مدیریت اطلاعات کارکنان و پرسنل سازمان
+          </p>
+        </div>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg"
         >
           <Plus className="w-4 h-4" />
-          <span>Add Staff</span>
+          <span>افزودن کارمند</span>
         </button>
       </div>
 
-      <div className="bg-white shadow rounded-lg">
-        <div className="px-6 py-4 border-b border-slate-200">
+      <div className="bg-white dark:bg-gray-800 shadow-xl rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600">
           <div className="flex items-center space-x-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search staff..."
+                placeholder="جستجوی کارکنان..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pr-12 pl-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-all"
               />
             </div>
           </div>
@@ -100,16 +108,12 @@ const StaffPage: React.FC = () => {
         />
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        title={editingStaff ? 'Edit Staff Member' : 'Add New Staff Member'}
-        maxWidth="2xl"
-      >
-        <div className="text-center py-8">
-          <p className="text-slate-600">Staff form will be implemented here</p>
-        </div>
-      </Modal>
+      {isModalOpen && (
+        <StaffForm
+          staff={editingStaff}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

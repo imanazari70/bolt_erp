@@ -12,7 +12,9 @@ import Tasks from './pages/Tasks';
 import Timesheets from './pages/Timesheets';
 import Mails from './pages/Mails';
 import Messages from './pages/Messages';
+import Admin from './pages/Admin';
 import LoadingSpinner from './components/Common/LoadingSpinner';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -70,6 +72,7 @@ const AppRoutes: React.FC = () => {
         <Route path="timesheets" element={<Timesheets />} />
         <Route path="mails" element={<Mails />} />
         <Route path="messages" element={<Messages />} />
+        <Route path="admin" element={<Admin />} />
       </Route>
     </Routes>
   );
@@ -77,14 +80,16 @@ const AppRoutes: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Router>
-          <AppRoutes />
-          <Toaster position="top-right" />
-        </Router>
-      </AuthProvider>
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Router>
+            <AppRoutes />
+            <Toaster position="top-right" />
+          </Router>
+        </AuthProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 };
 
