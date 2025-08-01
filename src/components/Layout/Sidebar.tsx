@@ -14,13 +14,14 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 
 const menuItems = [
-  { path: '/dashboard', icon: Home, label: 'Dashboard' },
-  { path: '/staff', icon: Users, label: 'Staff' },
-  { path: '/projects', icon: FolderOpen, label: 'Projects' },
-  { path: '/tasks', icon: CheckSquare, label: 'Tasks' },
-  { path: '/timesheets', icon: Clock, label: 'Timesheets' },
-  { path: '/mails', icon: Mail, label: 'Mails' },
-  { path: '/messages', icon: MessageCircle, label: 'Messages' },
+  { path: '/dashboard', icon: Home, label: 'داشبورد' },
+  { path: '/staff', icon: Users, label: 'کارکنان' },
+  { path: '/projects', icon: FolderOpen, label: 'پروژه‌ها' },
+  { path: '/tasks', icon: CheckSquare, label: 'وظایف' },
+  { path: '/timesheets', icon: Clock, label: 'تایم‌شیت‌ها' },
+  { path: '/mails', icon: Mail, label: 'نامه‌ها' },
+  { path: '/messages', icon: MessageCircle, label: 'پیام‌ها' },
+  { path: '/admin', icon: Settings, label: 'مدیریت سیستم' },
 ];
 
 interface SidebarProps {
@@ -32,14 +33,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed }) => {
   const { logout } = useAuth();
 
   return (
-    <div className={`bg-slate-900 text-white transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} min-h-screen`}>
+    <div className={`bg-slate-900 dark:bg-gray-900 text-white transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-64'} min-h-screen`}>
       <div className="p-4">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <Settings className="w-5 h-5" />
           </div>
           {!isCollapsed && (
-            <h1 className="text-xl font-bold">ERP System</h1>
+            <h1 className="text-xl font-bold">سیستم ERP</h1>
           )}
         </div>
       </div>
@@ -75,7 +76,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed }) => {
             >
               <LogOut className="w-5 h-5 flex-shrink-0" />
               {!isCollapsed && (
-                <span className="ml-3 text-sm font-medium">Logout</span>
+                <span className="ml-3 text-sm font-medium">خروج</span>
               )}
             </button>
           </div>

@@ -113,3 +113,32 @@ export interface PaginatedResponse<T> {
   next?: string;
   previous?: string;
 }
+
+// Admin types
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  is_active: boolean;
+  is_staff: boolean;
+  is_superuser: boolean;
+  last_login?: string;
+  date_joined: string;
+  groups?: number[];
+  user_permissions?: number[];
+}
+
+export interface Group {
+  id: number;
+  name: string;
+  permissions?: number[];
+}
+
+export interface Permission {
+  id: number;
+  name: string;
+  content_type: string;
+  codename: string;
+}

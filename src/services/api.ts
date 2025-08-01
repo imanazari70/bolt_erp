@@ -198,3 +198,69 @@ export const messageApi = {
     await api.delete(`/api/messages/${id}/`);
   },
 };
+
+// Admin API functions
+export const adminApi = {
+  // Users management
+  getUsers: async (): Promise<User[]> => {
+    const response = await api.get('/api/admin/users/');
+    return response.data;
+  },
+  getUser: async (id: number): Promise<User> => {
+    const response = await api.get(`/api/admin/users/${id}/`);
+    return response.data;
+  },
+  createUser: async (user: Omit<User, 'id'>): Promise<User> => {
+    const response = await api.post('/api/admin/users/', user);
+    return response.data;
+  },
+  updateUser: async (id: number, user: Partial<User>): Promise<User> => {
+    const response = await api.patch(`/api/admin/users/${id}/`, user);
+    return response.data;
+  },
+  deleteUser: async (id: number): Promise<void> => {
+    await api.delete(`/api/admin/users/${id}/`);
+  },
+
+  // Groups management
+  getGroups: async (): Promise<Group[]> => {
+    const response = await api.get('/api/admin/groups/');
+    return response.data;
+  },
+  getGroup: async (id: number): Promise<Group> => {
+    const response = await api.get(`/api/admin/groups/${id}/`);
+    return response.data;
+  },
+  createGroup: async (group: Omit<Group, 'id'>): Promise<Group> => {
+    const response = await api.post('/api/admin/groups/', group);
+    return response.data;
+  },
+  updateGroup: async (id: number, group: Partial<Group>): Promise<Group> => {
+    const response = await api.patch(`/api/admin/groups/${id}/`, group);
+    return response.data;
+  },
+  deleteGroup: async (id: number): Promise<void> => {
+    await api.delete(`/api/admin/groups/${id}/`);
+  },
+
+  // Permissions management
+  getPermissions: async (): Promise<Permission[]> => {
+    const response = await api.get('/api/admin/permissions/');
+    return response.data;
+  },
+  getPermission: async (id: number): Promise<Permission> => {
+    const response = await api.get(`/api/admin/permissions/${id}/`);
+    return response.data;
+  },
+  createPermission: async (permission: Omit<Permission, 'id'>): Promise<Permission> => {
+    const response = await api.post('/api/admin/permissions/', permission);
+    return response.data;
+  },
+  updatePermission: async (id: number, permission: Partial<Permission>): Promise<Permission> => {
+    const response = await api.patch(`/api/admin/permissions/${id}/`, permission);
+    return response.data;
+  },
+  deletePermission: async (id: number): Promise<void> => {
+    await api.delete(`/api/admin/permissions/${id}/`);
+  },
+};
